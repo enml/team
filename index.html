@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>File API</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="font-awesome-4.1.0/css/font-awesome.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/canvasFilter.js" defer></script>
+    <script src="js/dropFile.js" defer></script>
+    <script src="js/templates.js" defer></script>
+</head>
+
+<body>
+    <header class="clearfix" id="navbar">
+        <div id="logo">
+            <a href="" id="teamLogo"></a>
+        </div>
+        <nav class="clearfix">
+            <ul class="navList">
+                <li id="photo">图片</li>
+                <li id="todo">ToDo</li>
+                <li id="document">文档</li>
+            </ul>
+        </nav>
+    </header>
+    <article id="container">
+        <aside id="aside">
+        
+        </aside>
+        <section id="showDetail">
+        </section>
+    </article>
+    <script>
+        var app = {},
+            img = new Image();
+        $("#navbar").on({
+                'mouseover': function (e) {
+                    e.target.classList.add("mouseover");
+                },
+                'mouseout': function (e) {
+                    e.target.classList.remove("mouseover");
+                },
+                'click': function (e) {
+                    while ($(".active")[0]) {
+                        $(".active").removeClass("active")
+                    };
+                    e.target.classList.add("active");
+                }
+            },
+            '#photo,#todo,#document').on('click', '#photo', function (e) {
+            $("#container").addClass("bounce");
+            $("#aside").html(app.templates.showPhotoAside());
+            $('#showDetail').html(app.templates.showPhotoDetail());
+            setTimeout(function () {
+                app.canvasResult = app.canvas();
+                app.dropFile();
+                $("#container").removeClass("bounce");
+            }, 500) //注意app.canvasResult=app.canvas()这一句，只有这样才能把return的结果放到app里面，直接app.canvas()是没用的
+
+        }).on('click', '#todo', function () {
+            $("#aside").html(app.templates.showTodoAside());
+            $("#showDetail").html(app.templates.showTodoDetail());
+
+
+        }).on('click', '#document', function () {
+            $("#aside").html(app.templates.showDocumentAside());
+            $("#showDetail").html(app.templates.showDocumentDetail());
+
+
+        })
+    </script>
+
+</body>
+
+</html>
